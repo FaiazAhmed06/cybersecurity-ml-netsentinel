@@ -124,6 +124,14 @@ python visualization/dashboard.py --save-only
 
 ------------------------------------------------------------------------
 
-## 📜 License
+## License
 
-MIT License © 2025 Faiyaz Ahmed
+MIT License © 2025 Faiaz Ahmed
+
+
+
+
+
+
+
+
