@@ -1,150 +1,129 @@
-# 🛡️ AI-Cybersecurity-Lab 2.0
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+# NetSentinel --- AI-Powered Cybersecurity
 
-**AI-Cybersecurity-Lab 2.0** is an advanced, modular cybersecurity laboratory integrating **Artificial Intelligence (AI)**, **Suricata**, **Zeek**, and **Ethereum smart contract auditing**. It is designed to simulate real-world cyber environments, evaluate threats, and test defense strategies.
+## 📌 Purpose
 
----
+NetSentinel is designed to fuse **network intrusion detection logs**
+(Suricata + Zeek) with **machine learning--based scoring** to provide
+analysts with enriched insights into **lateral movement detection** and
+**threat correlation**.
 
-## 🎯 Target Users
-This lab is ideal for:
-- 🧠 AI & Cybersecurity Students and Researchers
-- 🕵️‍♂️ SOC Analysts and Threat Hunters
-- 🔴🔵 Red/Blue Teams
-- 🏢 Enterprises evaluating scalable defense platforms
-- 💡 Developers building intelligent security tools
+This project demonstrates how raw alerts can be normalized, correlated,
+scored, and visualized to highlight suspicious activities inside a
+network.
 
----
-```
-## 📁 Project Tree Overview
+It also includes a **smart contract auditing module** using **Mythril**
+and **Slither** to analyze Solidity contracts for vulnerabilities.
 
-AI-Cybersecurity-lab-2.0/
-├── ai_alert_scoring/ # AI/ML-based alert scoring
-│ ├── ai_model.py # Trained ML model for threat prioritization
-│ └── feature_extractor.py # Extracts features from parsed alerts
-│
-├── suricata_alerts/ # Suricata log parsing
-│ ├── parse_suricata.py # Parses Suricata JSON logs
-│ └── sample_suricata.json # Sample Suricata alert file
-│
-├── zeek_alerts/ # Zeek log analysis
-│ ├── parse_zeek.py # Parses Zeek conn.log data
-│ └── sample_conn.log # Sample Zeek connection log
-│
-├── smart_contract_audit/ # Smart contract security tools
-│ ├── audit_with_mythril.py # Audit script using Mythril
-│ ├── audit_with_slither.py # Audit script using Slither
-│ └── vulnerable_contract.sol # Sample vulnerable Solidity contract
-│
-├── visualization/ # Visualization & dashboard
-│ ├── dashboard.py # Python dashboard using matplotlib/seaborn
-│ └── alert_data.csv # Sample data for visualizing alerts
-│
-├── Dockerfile # Builds the lab environment container
-├── docker-compose.yml # Launches all services with one command
-├── requirements.txt # Python package dependencies
-├── LICENSE # MIT License
-└── README.md # Project overview, setup guide, and usage
+------------------------------------------------------------------------
 
-```
----
+## 🎯 What this project serves
+
+-   **Alert Normalization**\
+    Unifies Suricata EVE JSON logs and Zeek conn.log flows into a single
+    normalized schema.
+
+-   **Correlation**\
+    Matches Suricata alerts with Zeek flows on the same 5-tuple within a
+    60-second window, increasing analyst confidence.
+
+-   **Lateral Movement Detection**\
+    Flags SMB (445) and RDP (3389) pivots, high fan-out connections, and
+    suspicious internal movements.
+
+-   **Machine Learning Scoring**\
+    Trains a baseline ML classifier (`model.pkl`) on enriched features
+    (severity, fan-out, evidence count, risky ports).
+
+-   **Visualization Dashboard**\
+    Provides an interactive two-page dark-themed dashboard showing:
+
+    -   Severity distribution\
+    -   Correlation rates\
+    -   Fan-out (unique destinations per source)\
+    -   Lateral Movement scoring trends\
+    -   High-risk event tables
+
+-   **Smart Contract Auditing**\
+    Integrates Mythril and Slither static analysis to detect Ethereum
+    smart contract vulnerabilities.
+
+------------------------------------------------------------------------
+
+## 📊 Example Outputs
+
+The project generates **dashboards** that help visualize alerts and
+scoring.
+
+### Page 1 --- Basic Alert Overview
+
+![Dashboard Page 1](artifacts/dashboard_page1.png)
+
+### Page 2 --- Advanced Analysis
+
+![Dashboard Page 2](artifacts/dashboard_page2.png)
+
+------------------------------------------------------------------------
+
+## 🛠️ Project Structure
+
+    AI-Cybersecurity-Lab-2.1/
+    ├── .github/workflows/ci.yml         # CI/CD with pytest
+    ├── ai_alert_scoring/                # ML model + feature extractor
+    ├── artifacts/                       # Generated dashboards + models
+    ├── docs/                            # Architecture & ATT&CK mapping
+    ├── scripts/                         # Training + audit scripts
+    ├── smart_contract_audit/            # Mythril & Slither analyzers
+    ├── src/netsentinel/                 # Core correlation + detection logic
+    ├── suricata_alerts/                 # Suricata parser
+    ├── zeek_alerts/                     # Zeek parser
+    ├── tests/                           # Unit tests
+    ├── Dockerfile, docker-compose.yml   # Container setup
+    ├── requirements.txt                 # Python dependencies
+    └── README.md                        # Project overview (this file)
+
+------------------------------------------------------------------------
 
 ## 🚀 How to Run
 
-Clone and launch with Docker Compose:
+1.  Install dependencies:
 
-```bash
-git clone https://github.com/ivonexauce/AI-Cybersecurity-lab-2.0.git
-cd AI-Cybersecurity-lab-2.0
-docker-compose up --build
-```
-
-This sets up a ready-to-use environment with AI scoring, log parsing, and smart contract auditing tools pre-installed.
-
----
-
-
-🧠 AI Model Details
-```
-| Component     | Description                                      |
-| ------------- | ------------------------------------------------ |
-| Algorithms    | Logistic Regression, Random Forest, XGBoost      |
-| Training Data | Labeled Suricata & Zeek logs                     |
-| Output        | Alert Priority: **High**, **Medium**, or **Low** |
-```
-
-
-Usage example:
-
-```
-from ai_alert_scoring.ai_model import load_model, predict_threat
-from ai_alert_scoring.feature_extractor import extract_features
-from suricata_alerts.parse_suricata import load_suricata_alerts
-
-model = load_model('model.pkl')
-alert = load_suricata_alerts('suricata_alerts/sample_suricata.json')[0]
-features = extract_features(alert)
-print("Threat Level:", predict_threat(features, model))
-```
----
-
-🧪 Smart Contract Tools
-```
-| Tool    | Purpose                      | Supported Format |
-| ------- | ---------------------------- | ---------------- |
-| Mythril | Symbolic execution engine    | `.sol`           |
-| Slither | Static analysis and bug scan | `.sol`           |
-
-```
-
-Run audits like this:
-```
-python smart_contract_audit/audit_with_mythril.py
-python smart_contract_audit/audit_with_slither.py
-```
----
-
-📊 Visual Dashboard
-Visualize alert severity distribution:
-```
-python visualization/dashboard.py
-```
-A bar graph of severity levels will appear using matplotlib.
----
-
-📦 Requirements
-🐍 Python 3.10+
-
-🐳 Docker & Docker Compose
-
-🧰 Suricata & Zeek (pre-configured or via container)
-
-🔧 Node.js (for optional Solidity compilation)
-
-Install Python packages manually if needed:
-```
+``` bash
 pip install -r requirements.txt
-
 ```
----
-🔍 Feature Summary
 
-| Feature                     | Description                                                    |
-| --------------------------- | -------------------------------------------------------------- |
-| 🧠 AI Alert Scoring         | Uses machine learning to prioritize alerts intelligently.      |
-| 📡 Suricata IDS Integration | Monitors traffic using signature-based intrusion detection.    |
-| 🔬 Zeek IDS Integration     | Captures behavioral traffic logs for analysis.                 |
-| 🔐 Smart Contract Auditing  | Audits Ethereum smart contracts using industry-standard tools. |
-| 📊 Data Visualization       | Provides plots and dashboards for alert analytics.             |
-| 🐳 Docker Support           | Simple and isolated deployment using Docker Compose.           |
+2.  Parse alerts:
 
----
-📜 License
-This project is licensed under the MIT License — free to use, distribute, and modify.
----
-🙌 Contributors & Community
-Author: UMBA YANGA IVON EXAUCE
-🎓 PhD Scholar in AI & Blockchain Security
-🌐 umbaconsulting.com
-📧 umbayanga6bio@gmail.com
+``` bash
+python suricata_alerts/parse_suricata.py sample_suricata.json visualization/alert_data.csv
+python zeek_alerts/parse_zeek.py sample_conn.log visualization/alert_data.csv
+```
 
-“Combining AI and cybersecurity isn't just a trend—it's a necessity for modern digital defense.” – Ivon Exauce Umba
+3.  Correlate logs:
+
+``` bash
+python src/netsentinel/correlator.py
+```
+
+4.  Detect lateral movement:
+
+``` bash
+python src/netsentinel/detections/lateral_movement.py
+```
+
+5.  Train ML baseline:
+
+``` bash
+python scripts/train_baseline.py
+```
+
+6.  Generate dashboard:
+
+``` bash
+python visualization/dashboard.py --save-only
+```
+
+------------------------------------------------------------------------
+
+## 📜 License
+
+MIT License © 2025 Faiyaz Ahmed

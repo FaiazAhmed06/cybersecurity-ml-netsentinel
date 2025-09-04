@@ -1,14 +1,21 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-        contract Test {
-            address public owner;
+// Demo contract with an intentional vulnerability: tx.origin misuse for auth.
+contract Test {
+    address public owner;
 
-            constructor() {
-                owner = msg.sender;
-            }
+    constructor() payable {
+        owner = msg.sender;
+    }
 
-            function withdraw() public {
-                require(tx.origin == owner);
-                payable(msg.sender).transfer(address(this).balance);
-            }
-        }
+    // Allow sending ether to the contract for testing withdrawals.
+    receive() external payable {}
+
+    function withdraw() external {
+        // VULNERABLE: tx.origin is phishable and should not be used for auth.
+        require(tx.origin == owner, "not owner (tx.origin)");
+        (bool ok, ) = payable(msg.sender).call{value: address(this).balance}("");
+        require(ok, "transfer failed");
+    }
+}

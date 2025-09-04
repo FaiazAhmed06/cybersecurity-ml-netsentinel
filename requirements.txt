@@ -1,12 +1,5 @@
 pandas
-scikit-learn
 numpy
-matplotlib
-seaborn
-flask
+scikit-learn
 joblib
-requests
-pyyaml
-docker
-mythril
-slither-analyzer
+matplotlib
