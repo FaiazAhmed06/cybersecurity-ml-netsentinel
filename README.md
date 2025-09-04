@@ -1,6 +1,6 @@
 # NetSentinel --- AI-Powered Cybersecurity
 
-## 📌 Purpose
+## Purpose
 
 NetSentinel is designed to fuse **network intrusion detection logs**
 (Suricata + Zeek) with **machine learning--based scoring** to provide
@@ -16,7 +16,7 @@ and **Slither** to analyze Solidity contracts for vulnerabilities.
 
 ------------------------------------------------------------------------
 
-## 🎯 What this project serves
+## What this project serves
 
 -   **Alert Normalization**\
     Unifies Suricata EVE JSON logs and Zeek conn.log flows into a single
@@ -49,7 +49,7 @@ and **Slither** to analyze Solidity contracts for vulnerabilities.
 
 ------------------------------------------------------------------------
 
-## 📊 Example Outputs
+## Example Outputs
 
 The project generates **dashboards** that help visualize alerts and
 scoring.
@@ -64,7 +64,7 @@ scoring.
 
 ------------------------------------------------------------------------
 
-## 🛠️ Project Structure
+## Project Structure
 
     AI-Cybersecurity-Lab-2.1/
     ├── .github/workflows/ci.yml         # CI/CD with pytest
@@ -83,7 +83,7 @@ scoring.
 
 ------------------------------------------------------------------------
 
-## 🚀 How to Run
+## How to Run
 
 1.  Install dependencies:
 
